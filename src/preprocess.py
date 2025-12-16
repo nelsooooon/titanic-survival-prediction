@@ -26,43 +26,43 @@ from joblib import dump
 
 """# **Pre-processing**"""
 
+class FeatureEngineer(BaseEstimator, TransformerMixin):
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X_copy = X.copy()
+        X_copy['Family Size'] = X_copy['SibSp'] + X_copy['Parch'] + 1
+        X_copy['Fare Per Person'] = X_copy['Fare'] / X_copy['Family Size']
+
+        X_copy['Fare Per Person'] = X_copy['Fare Per Person'].replace([np.inf, -np.inf], np.nan)
+
+        bins = [0, 12, 19, 50, np.inf]
+        labels = ['Child', 'Teenager', 'Adult', 'Senior']
+        X_copy['Age Group'] = pd.cut(X_copy['Age'], bins=bins, labels=labels, include_lowest=True, right=False).astype(str)
+        X_copy['Age Group'] = X_copy['Age Group'].replace('nan', 'Unknown')
+
+        return X_copy
+
+    def get_feature_names_out(self, input_features=None):
+        new_features = ['Family Size', 'Fare Per Person', 'Age Group']
+        return np.append(input_features, new_features)
+
+class FeatureDropper(BaseEstimator, TransformerMixin):
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        columns_to_drop = ['Name', 'Ticket', 'Cabin', 'SibSp', 'Parch', 'Fare', 'Age']
+
+        return X.drop(columns=columns_to_drop)
+
+    def get_feature_names_out(self, input_features=None):
+        columns_to_drop = ['Name', 'Ticket', 'Cabin', 'SibSp', 'Parch', 'Fare', 'Age']
+
+        return [col for col in input_features if col not in columns_to_drop]
+        
 def automate_preprocess(df, pipeline_path, save_path):
-    class FeatureEngineer(BaseEstimator, TransformerMixin):
-        def fit(self, X, y=None):
-            return self
-
-        def transform(self, X):
-            X_copy = X.copy()
-            X_copy['Family Size'] = X_copy['SibSp'] + X_copy['Parch'] + 1
-            X_copy['Fare Per Person'] = X_copy['Fare'] / X_copy['Family Size']
-
-            X_copy['Fare Per Person'] = X_copy['Fare Per Person'].replace([np.inf, -np.inf], np.nan)
-
-            bins = [0, 12, 19, 50, np.inf]
-            labels = ['Child', 'Teenager', 'Adult', 'Senior']
-            X_copy['Age Group'] = pd.cut(X_copy['Age'], bins=bins, labels=labels, include_lowest=True, right=False).astype(str)
-            X_copy['Age Group'] = X_copy['Age Group'].replace('nan', 'Unknown')
-
-            return X_copy
-
-        def get_feature_names_out(self, input_features=None):
-            new_features = ['Family Size', 'Fare Per Person', 'Age Group']
-            return np.append(input_features, new_features)
-
-    class FeatureDropper(BaseEstimator, TransformerMixin):
-        def fit(self, X, y=None):
-            return self
-
-        def transform(self, X):
-            columns_to_drop = ['Name', 'Ticket', 'Cabin', 'SibSp', 'Parch', 'Fare', 'Age']
-
-            return X.drop(columns=columns_to_drop)
-
-        def get_feature_names_out(self, input_features=None):
-            columns_to_drop = ['Name', 'Ticket', 'Cabin', 'SibSp', 'Parch', 'Fare', 'Age']
-
-            return [col for col in input_features if col not in columns_to_drop]
-
     """## Pipeline"""
 
     numerical_cols = ['Pclass', 'Family Size', 'Fare Per Person']
