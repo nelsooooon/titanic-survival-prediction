@@ -43,8 +43,7 @@ jobs:
           git config --global user.email ${{ secrets.EMAIL }}
 
           git add res/preprocessor_pipeline.joblib 
-          git add res/train.csv
-          git add preprocessing/WA_Fn-UseC_-Telco-Customer-Churn_preprocessing.csv
+          git add res/train_preprocess.csv
 
           git commit -m "Save from CI run [skip ci]"
           git push origin main
