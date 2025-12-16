@@ -111,7 +111,7 @@ def automate_preprocess(df, pipeline_path, save_path):
     df_train = pd.DataFrame(X, columns=feature_names)
     df_train[target_column] = y.reset_index(drop=True)
     
-    df_train.pd.to_csv(save_path, index=False)
+    df_train.to_csv(save_path, index=False)
 
 if __name__ == "__main__":
     train_path  = 'res/train.csv'
