@@ -10,9 +10,13 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 
 from joblib import dump
 import warnings
+import os
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
+    
+    if 'MLFLOW_RUN_ID' in os.environ:
+        del os.environ['MLFLOW_RUN_ID']
     
     # dagshub.init(repo_owner="nelsooooon", repo_name="titanic-survival-prediction", mlflow=True)
     # mlflow.set_tracking_uri("https://dagshub.com/nelsooooon/titanic-survival-prediction.mlflow")
