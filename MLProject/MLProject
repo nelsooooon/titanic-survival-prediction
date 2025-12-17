@@ -1,0 +1,13 @@
+name: mlflow-titanic-survival-prediction
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      dataset:
+        {
+          type: string,
+          default: "../res/train.csv",
+        }
+    command: "python modelling.py"
