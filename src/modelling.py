@@ -14,7 +14,7 @@ if __name__ == "__main__":
     mlflow.set_experiment("Logging Model")    
     
     """# **Data Splitting**"""
-    model_path = 'res/model.h5'
+    model_path = 'res/model.joblib'
     train_path = 'res/train_preprocess.csv'
     df_train = pd.read_csv(train_path)
     
@@ -48,15 +48,15 @@ if __name__ == "__main__":
         best_rf_rs = random_search.best_estimator_
         y_pred = best_rf_rs.predict(X_test)
         
-        accuracy_score = accuracy_score(y_test, y_pred)
-        precision_score = precision_score(y_test, y_pred)
-        recall_score = recall_score(y_test, y_pred)
-        f1_score = f1_score(y_test, y_pred)
+        accuracy = accuracy_score(y_test, y_pred)
+        precision = precision_score(y_test, y_pred)
+        recall = recall_score(y_test, y_pred)
+        f1 = f1_score(y_test, y_pred)
         
-        mlflow.log_metric("test_accuracy", accuracy_score)
-        mlflow.log_metric("test_precision", precision_score)
-        mlflow.log_metric("test_recall", recall_score)
-        mlflow.log_metric("test_f1", f1_score)
+        mlflow.log_metric("test_accuracy", accuracy)
+        mlflow.log_metric("test_precision", precision)
+        mlflow.log_metric("test_recall", recall)
+        mlflow.log_metric("test_f1", f1)
         
         mlflow.sklearn.log_model(
             sk_model=best_rf_rs,

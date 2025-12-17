@@ -7,8 +7,8 @@ df_test = pd.read_csv(test_path)
 pipeline_path = 'res/preprocessor_pipeline.joblib'
 preprocessor = load(pipeline_path)
 
-model_path = 'res/model.h5'
-best_rf_rs = load()
+model_path = 'res/model.joblib'
+best_rf_rs = load(model_path)
 
 final_path = 'res/submission.csv'
 
