@@ -5,14 +5,20 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+from joblib import dump
 
 if __name__ == "__main__":
+    mlflow.set_tracking_uri("http://127.0.0.1:8080/")
+    mlflow.set_experiment("Logging Model")    
+    
     """# **Data Splitting**"""
-
-    target_column = ['PassengerId', 'Survived']
+    model_path = 'res/model.h5'
     train_path = 'res/train_preprocess.csv'
     df_train = pd.read_csv(train_path)
     
+    target_column = ['PassengerId', 'Survived']
     X = df_train.drop(columns=target_column)
     y = df_train['Survived']
 
@@ -40,9 +46,22 @@ if __name__ == "__main__":
         random_search.fit(X_train, y_train)
 
         best_rf_rs = random_search.best_estimator_
+        y_pred = best_rf_rs.predict(X_test)
+        
+        accuracy_score = accuracy_score(y_test, y_pred)
+        precision_score = precision_score(y_test, y_pred)
+        recall_score = recall_score(y_test, y_pred)
+        f1_score = f1_score(y_test, y_pred)
+        
+        mlflow.log_metric("test_accuracy", accuracy_score)
+        mlflow.log_metric("test_precision", precision_score)
+        mlflow.log_metric("test_recall", recall_score)
+        mlflow.log_metric("test_f1", f1_score)
         
         mlflow.sklearn.log_model(
-            sk_model=model_rf,
-            artifact_path=model_rf,
+            sk_model=best_rf_rs,
+            artifact_path="modelRF",
             input_example=input_example
         )
+        
+        dump(best_rf_rs, model_path)
