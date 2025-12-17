@@ -45,13 +45,33 @@ jobs:
 
       - name: Get latest MLflow run_id
         run: |
-          RUN_ID=$(ls -td mlruns/1/*/ | head -n 1 | cut -d'/' -f3)
+          RUN_ID=$(python -c "
+          import mlflow
+          import os
+          client = mlflow.tracking.MlflowClient()
+          experiment = client.get_experiment_by_name('Logging Model')
+          if experiment:
+              runs = client.search_runs(
+                  experiment_ids=[experiment.experiment_id],
+                  order_by=['start_time DESC'],
+                  max_results=1
+              )
+              if runs:
+                  run_id = runs[0].info.run_id
+                  print(run_id)
+                  # Verify artifact exists
+                  artifacts = [a.path for a in client.list_artifacts(run_id)]
+                  if 'modelRF' not in artifacts:
+                      print(f'WARNING: modelRF not found in artifacts: {artifacts}', file=__import__('sys').stderr)
+          ")
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
       - name: Build Docker Model
+        if: env.RUN_ID != ''
         run: |
-          mlflow models build-docker --model-uri "runs:/$RUN_ID/modelRF" --name "survived"
+          echo "Building Docker for run: ${{ env.RUN_ID }}"
+          mlflow models build-docker --model-uri "runs:/${{ env.RUN_ID }}/modelRF" --name "survived"
 
       - name: Login to Docker Hub
         if: env.RUN_ID != ''
