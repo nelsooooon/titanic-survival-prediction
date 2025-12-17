@@ -40,12 +40,16 @@ jobs:
           python src/preprocess.py
 
       - name: Run modelling
+        env:
+            DAGSHUB_ACCESS_TOKEN: ${{ secrets.DAGSHUB_ACCESS_TOKEN }}
+            MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_ACCESS_TOKEN }}
+            MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_ACCESS_TOKEN }}
         run: |
           mlflow run ./MLProject --env-manager=local
 
       - name: Get latest MLflow run_id
         run: |
-          RUN_ID=$(mlflow runs list --experiment-name "Logging Model" --max-results 1 --order-by "start_time DESC" --output-format json | jq -r '.[0].run_id')
+          RUN_ID=$(python -c "import mlflow; client = mlflow.tracking.MlflowClient(); runs = client.search_runs(experiment_ids=['0'], order_by=['start_time DESC'], max_results=1); print(runs[0].info.run_id if runs else '')")
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
