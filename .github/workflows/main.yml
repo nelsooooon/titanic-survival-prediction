@@ -47,8 +47,6 @@ jobs:
         run: |
           RUN_ID=$(python -c "
           import mlflow
-          import os
-          os.chdir('MLProject')
           client = mlflow.tracking.MlflowClient()
           experiment = client.get_experiment_by_name('Logging Model')
           if experiment:
@@ -67,8 +65,6 @@ jobs:
       - name: Build Docker Model
         if: env.RUN_ID != ''
         run: |
-          cd MLProject
-          export MLFLOW_TRACKING_URI="file:./mlruns"
           mlflow models build-docker \
             --model-uri "runs:/${{ env.RUN_ID }}/modelRF" \
             --name "survived"
