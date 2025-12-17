@@ -72,7 +72,7 @@ if __name__ == "__main__":
         
         mlflow.sklearn.log_model(
             sk_model=best_rf_rs,
-            name="modelRF",
+            artifact_path="modelRF",
             input_example=input_example
         )
         
