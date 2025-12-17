@@ -15,7 +15,7 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     
     dagshub.init(repo_owner="nelsooooon", repo_name="titanic-survival-prediction", mlflow=True)
-    # mlflow.set_tracking_uri("https://dagshub.com/nelsooooon/titanic-survival-prediction.mlflow")
+    mlflow.set_tracking_uri("https://dagshub.com/nelsooooon/titanic-survival-prediction.mlflow")
     mlflow.set_experiment("Logging Model")    
     
     """# **Data Splitting**"""
