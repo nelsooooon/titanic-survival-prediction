@@ -15,18 +15,19 @@ import os
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     
-    if 'MLFLOW_RUN_ID' in os.environ:
-        del os.environ['MLFLOW_RUN_ID']
+    for key in list(os.environ.keys()):
+        if key.startswith('MLFLOW_'):
+            del os.environ[key]
     
     # dagshub.init(repo_owner="nelsooooon", repo_name="titanic-survival-prediction", mlflow=True)
     # mlflow.set_tracking_uri("https://dagshub.com/nelsooooon/titanic-survival-prediction.mlflow")
     # mlflow.set_tracking_uri("http://127.0.0.1:8080")
-    mlflow.set_tracking_uri("file:./mlruns")
+    # mlflow.set_tracking_uri("file:./mlruns")
     mlflow.set_experiment("Logging Model")    
     
     """# **Data Splitting**"""
-    model_path = '../res/model.joblib'
-    train_path = '../res/train_preprocess.csv'
+    model_path = 'res/model.joblib'
+    train_path = 'res/train_preprocess.csv'
     df_train = pd.read_csv(train_path)
     
     target_column = ['PassengerId', 'Survived']
