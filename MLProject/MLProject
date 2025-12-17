@@ -8,6 +8,6 @@ entry_points:
       dataset:
         {
           type: string,
-          default: "../res/train.csv",
+          default: "../res/train_preprocess.csv",
         }
     command: "python modelling.py"

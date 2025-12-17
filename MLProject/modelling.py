@@ -1,4 +1,5 @@
 import mlflow
+import dagshub
 import pandas as pd
 import numpy as np
 
@@ -8,9 +9,13 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 from joblib import dump
+import warnings
 
 if __name__ == "__main__":
-    mlflow.set_tracking_uri("http://127.0.0.1:8080/")
+    warnings.filterwarnings("ignore")
+    
+    dagshub.init(repo_owner="nelsooooon", repo_name="titanic-survival-prediction", mlflow=True)
+    mlflow.set_tracking_uri("https://dagshub.com/nelsooooon/titanic-survival-prediction.mlflow")
     mlflow.set_experiment("Logging Model")    
     
     """# **Data Splitting**"""
