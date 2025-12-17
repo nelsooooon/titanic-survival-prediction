@@ -1,50 +1,48 @@
+import mlflow
+import pandas as pd
+import numpy as np
+
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
 
-"""# **Data Splitting**"""
+if __name__ == "__main__":
+    """# **Data Splitting**"""
 
-test_path = 'res/test.csv'
-df_test = pd.read_csv(test_path)
+    target_column = ['PassengerId', 'Survived']
+    train_path = 'res/train_preprocess.csv'
+    df_train = pd.read_csv(train_path)
     
-X = df_train.drop(columns=target_column)
-y = df_train['Survived']
+    X = df_train.drop(columns=target_column)
+    y = df_train['Survived']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    param_dist = {
+        'n_estimators': np.linspace(100, 500, 5, dtype=int),
+        'max_depth': np.linspace(10, 50, 5, dtype=int),
+        'min_samples_split': [2, 5, 10],
+        'criterion': ['gini', 'entropy']
+    }
+    
+    input_example = X_test[0:5]
 
-"""# **Modelling**"""
+    """# **Modelling**"""
+    with mlflow.start_run(run_name="Random Search Forest"):
+        mlflow.autolog()
+        
+        model_rf = RandomForestClassifier(random_state=42)
+        model_rf.fit(X_train, y_train)
 
-model_rf = RandomForestClassifier(random_state=42)
-model_rf.fit(X_train, y_train)
+        """## HyperParameter Tuning"""
 
-"""## HyperParameter Tuning"""
+        random_search = RandomizedSearchCV(estimator=model_rf, param_distributions=param_dist, n_iter=20, cv=3, n_jobs=-1, verbose=2, random_state=42)
+        random_search.fit(X_train, y_train)
 
-param_dist = {
-    'n_estimators': np.linspace(100, 500, 5, dtype=int),
-    'max_depth': np.linspace(10, 50, 5, dtype=int),
-    'min_samples_split': [2, 5, 10],
-    'criterion': ['gini', 'entropy']
-}
-
-random_search = RandomizedSearchCV(estimator=model_rf, param_distributions=param_dist, n_iter=20, cv=3, n_jobs=-1, verbose=2, random_state=42)
-random_search.fit(X_train, y_train)
-
-best_rf_rs = random_search.best_estimator_
-
-"""# **Inference**"""
-
-
-X = df_test.drop(columns='PassengerId')
-y = df_test['PassengerId']
-
-X = preprocessor.fit_transform(X)
-feature_names = preprocessor.named_steps['transformer'].get_feature_names_out()
-
-df_test = pd.DataFrame(X, columns=feature_names)
-df_test['PassengerId'] = y.reset_index(drop=True)
-
-predictions = best_rf_rs.predict(df_test.drop(columns='PassengerId'))
-df_final = pd.DataFrame(df_test['PassengerId'])
-df_final['Survived'] = predictions
-
-df_final.to_csv(final_path, index=False)
+        best_rf_rs = random_search.best_estimator_
+        
+        mlflow.sklearn.log_model(
+            sk_model=model_rf,
+            artifact_path=model_rf,
+            input_example=input_example
+        )
