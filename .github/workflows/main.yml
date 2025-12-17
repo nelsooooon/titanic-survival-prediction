@@ -60,9 +60,6 @@ jobs:
               if runs:
                   run = runs[0]
                   print(run.info.run_id)
-                  artifacts = client.list_artifacts(run.info.run_id)
-                  if not any(a.path == 'modelRF' for a in artifacts):
-                      print('WARNING: modelRF artifact not found!', file=sys.stderr)
           ")
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
