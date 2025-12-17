@@ -1,0 +1,34 @@
+artifact_path: /home/nelson/Project/titanic-survival-prediction/mlruns/1/models/m-7462648ab84c42e38c3cda7cdbfe206a/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+is_signature_from_type_hint: false
+mlflow_version: 3.7.0
+model_id: m-7462648ab84c42e38c3cda7cdbfe206a
+model_size_bytes: 2262742
+model_uuid: m-7462648ab84c42e38c3cda7cdbfe206a
+prompts: null
+run_id: 6ee4389e45eb44d0a4430682be4e568a
+signature:
+  inputs: '[{"type": "double", "name": "Pclass", "required": true}, {"type": "double",
+    "name": "Family Size", "required": true}, {"type": "double", "name": "Fare Per
+    Person", "required": true}, {"type": "double", "name": "Sex_female", "required":
+    true}, {"type": "double", "name": "Sex_male", "required": true}, {"type": "double",
+    "name": "Embarked_C", "required": true}, {"type": "double", "name": "Embarked_Q",
+    "required": true}, {"type": "double", "name": "Embarked_S", "required": true},
+    {"type": "double", "name": "Age Group", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-12-17 10:00:32.595120'
