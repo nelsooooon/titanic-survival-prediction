@@ -47,8 +47,6 @@ if __name__ == "__main__":
 
     """# **Modelling**"""
     with mlflow.start_run(run_name="Random Search Forest"):
-        mlflow.autolog()
-        
         model_rf = RandomForestClassifier(random_state=42)
         model_rf.fit(X_train, y_train)
 
@@ -72,7 +70,7 @@ if __name__ == "__main__":
         
         mlflow.sklearn.log_model(
             sk_model=best_rf_rs,
-            artifact_path="modelRF",
+            artifact_path="model",
             input_example=input_example
         )
         
