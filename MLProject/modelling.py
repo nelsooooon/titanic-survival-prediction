@@ -22,8 +22,8 @@ if __name__ == "__main__":
     mlflow.set_experiment("Logging Model")    
     
     """# **Data Splitting**"""
-    model_path = 'res/model.joblib'
-    train_path = 'res/train_preprocess.csv'
+    model_path = '../res/model.joblib'
+    train_path = '../res/train_preprocess.csv'
     df_train = pd.read_csv(train_path)
     
     target_column = ['PassengerId', 'Survived']
