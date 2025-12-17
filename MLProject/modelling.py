@@ -15,6 +15,10 @@ import os
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     
+    # Clear any existing MLflow run ID to start fresh
+    if 'MLFLOW_RUN_ID' in os.environ:
+        del os.environ['MLFLOW_RUN_ID']
+    
     # dagshub.init(repo_owner="nelsooooon", repo_name="titanic-survival-prediction", mlflow=True)
     # mlflow.set_tracking_uri("https://dagshub.com/nelsooooon/titanic-survival-prediction.mlflow")
     # mlflow.set_tracking_uri("http://127.0.0.1:8080")
