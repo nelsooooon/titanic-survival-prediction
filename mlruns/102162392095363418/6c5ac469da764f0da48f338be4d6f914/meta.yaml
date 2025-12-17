@@ -1,0 +1,14 @@
+artifact_uri: file:///home/nelson/Project/titanic-survival-prediction/mlruns/102162392095363418/6c5ac469da764f0da48f338be4d6f914/artifacts
+end_time: 1765957077344
+entry_point_name: ''
+experiment_id: '102162392095363418'
+lifecycle_stage: active
+run_id: 6c5ac469da764f0da48f338be4d6f914
+run_name: invincible-mink-673
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1765957058199
+status: 3
+tags: []
+user_id: nelson

@@ -1,0 +1,14 @@
+artifact_uri: file:///home/nelson/Project/titanic-survival-prediction/mlruns/102162392095363418/1ac60ff2156f439a91dbcffa36d40adf/artifacts
+end_time: 1765957077344
+entry_point_name: ''
+experiment_id: '102162392095363418'
+lifecycle_stage: active
+run_id: 1ac60ff2156f439a91dbcffa36d40adf
+run_name: worried-squirrel-143
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1765957058199
+status: 3
+tags: []
+user_id: nelson

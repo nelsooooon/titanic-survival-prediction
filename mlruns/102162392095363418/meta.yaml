@@ -1,0 +1,6 @@
+artifact_location: file:///home/nelson/Project/titanic-survival-prediction/mlruns/102162392095363418
+creation_time: 1765957058149
+experiment_id: '102162392095363418'
+last_update_time: 1765957058149
+lifecycle_stage: active
+name: Logging Model

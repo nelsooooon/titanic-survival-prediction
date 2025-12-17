@@ -1,0 +1,1 @@
+{'n_estimators': array([100, 200, 300, 400, 500]), 'max_depth': array([10, 20, 30, 40, 50]), 'min_samples_split': [2, 5, 10], 'criterion': ['gini', 'entropy']}

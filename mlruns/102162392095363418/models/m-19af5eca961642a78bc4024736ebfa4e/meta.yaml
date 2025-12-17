@@ -1,0 +1,10 @@
+artifact_location: file:///home/nelson/Project/titanic-survival-prediction/mlruns/102162392095363418/models/m-19af5eca961642a78bc4024736ebfa4e/artifacts
+creation_timestamp: 1765957077527
+experiment_id: '102162392095363418'
+last_updated_timestamp: 1765957080871
+model_id: m-19af5eca961642a78bc4024736ebfa4e
+model_type: null
+name: modelRF
+source_run_id: 141a75f3437c4630888b53f5c1488d82
+status: 2
+status_message: null
